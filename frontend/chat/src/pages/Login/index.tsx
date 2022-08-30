@@ -4,21 +4,16 @@ import { Button, Div } from './styles';
 
 export function Login() {
     return (
-        <div className="min-h-screen bg-pGray-200 flex flex-col justify-between items-center">
-            <div className="pt-40"><img src={logoSvg} alt="project-logo" className="mx-auto" /></div>
-            <div className="pb-48 flex flex-col justify-between items-center w-full">
-                <Button.login className="py-5 w-4/5 mx-6">
-                    Login com Google
-                </Button.login>
-                <Div.or className="flex items-center justify-between w-4/5 py-7">
-                    <div className="line grow ml-6"></div>
-                    <span className="px-5">or</span>
-                    <div className="line grow mr-6"></div>
-                </Div.or>
-                <Button.login className="py-5 w-4/5 mx-6">
-                    Login com Apple
-                </Button.login>
-            </div>
-        </div>
+        <Div.container className="min-h-screen mx-auto">
+            <div className="pt-16"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
+            <h3 className="py-10 text-pBlack-700 text-center"><strong>Login</strong></h3>
+            <Div.inputContainer className="flex flex-col items-center mb-40">
+                <input type="text" placeholder="Digite seu username" className="h-14 d-block mx-auto" />
+                <input type="password" placeholder="Digite sua senha" className="h-14 d-block mx-auto mt-5" />
+                <a href="#" className="mt-4 ml-8 forgot self-start"><strong>Forgot password?</strong></a>
+            </Div.inputContainer>
+            <div className="flex flex-col items-center"><button className="d-block text-white py-4 mx-auto">Login</button></div>
+            
+        </Div.container>
     )
 }
