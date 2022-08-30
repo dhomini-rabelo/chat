@@ -45,6 +45,18 @@ export const Div = {
       line-height: 22px;
       width: 86%;
     }
+
+    #already {
+      font-weight: 500;
+      font-size: 0.875rem;
+      line-height: 1.075rem;
+      color: var(--pBlack-700);
+    }
+    
+    #register-link {
+      color: var(--pBlue-300);
+
+    }
   `,
   
 }
