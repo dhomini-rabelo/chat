@@ -3,9 +3,7 @@ import styled from "styled-components";
 
 
 export const Div = {
-  
-  inputContainer: styled.div`
-  `,
+
 
   container: styled.div`
     max-width: 20rem;
@@ -30,11 +28,6 @@ export const Div = {
       font-size: 0.875rem;
       line-height: 1.075rem;
       color: var(--pBlack-700);
-    }
-    
-    #register-link {
-      color: var(--pBlue-300);
-
     }
   `,
   

@@ -17,7 +17,7 @@ export function Login() {
             </div>
             <div className="flex flex-col items-center"><ButtonForm>Entrar</ButtonForm></div>
             <span className="block text-center mt-8" id="already">Já cadastrou uma conta ?</span>
-            <Link to="/cadastro" id="register-link" className="block text-center mt-1">Cadastrar-se</Link>
+            <Link to="/cadastro" id="register-link" className="block text-center mt-1 text-pBlue-300">Cadastrar-se</Link>
         </Div.container>
     )
 }
