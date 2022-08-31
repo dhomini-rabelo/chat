@@ -2,6 +2,7 @@ import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from './../../themes/inputs';
 import { ButtonForm } from './../../themes/buttons';
+import { Link } from 'react-router-dom';
 
 
 export function Login() {
@@ -15,8 +16,8 @@ export function Login() {
                 <a href="#" className="mt-4 ml-8 forgot self-start"><strong>Forgot password?</strong></a>
             </div>
             <div className="flex flex-col items-center"><ButtonForm>Entrar</ButtonForm></div>
-            <span className="block text-center mt-8" id="already">Já tem uma conta ?</span>
-            <a href="" id="register-link" className="block text-center mt-1">Cadastrar-se</a>
+            <span className="block text-center mt-8" id="already">Já cadastrou uma conta ?</span>
+            <Link to="/cadastro" id="register-link" className="block text-center mt-1">Cadastrar-se</Link>
         </Div.container>
     )
 }
