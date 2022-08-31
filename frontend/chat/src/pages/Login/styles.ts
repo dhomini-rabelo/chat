@@ -5,18 +5,6 @@ import styled from "styled-components";
 export const Div = {
   
   inputContainer: styled.div`
-    input {
-      border: 1px solid var(--pBlack-100);
-      border-radius: 8px;
-      width: 86%;
-      text-indent: 1.25rem;
-    }
-    input:placeholder {
-      font-weight: 500;
-      font-size: 0.875rem;
-      line-height: 1.125rem;
-      color: var(--pBlack-100);
-    }
   `,
 
   container: styled.div`
