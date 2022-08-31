@@ -1,8 +1,18 @@
 import { InputHTMLAttributes } from "react";
 
 
-export function InputForm({name, moreClasses, ...attributes}: {name: string, moreClasses: string, attributes: InputHTMLAttributes<HTMLInputElement>}) {
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+    name: string, 
+    type?: string, 
+    moreClasses?: string,
+}
+
+export function InputForm({name, type="text", moreClasses="", ...attributes}: Props) {
     return (
-        <input type="text" name={name} id={name} placeholder="Digite seu username" className={`h-14 sm:h-12 d-block mx-auto input-form ${moreClasses}`} {...attributes} />
+        <input 
+            type={type} name={name} id={name}
+            className={`h-14 sm:h-12 d-block mx-auto input-form ${moreClasses}`} 
+            {...attributes} 
+        />
     )
 }
