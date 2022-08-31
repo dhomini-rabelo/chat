@@ -1,6 +1,7 @@
 import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from './../../themes/inputs';
+import { ButtonForm } from './../../themes/buttons';
 
 
 export function Login() {
@@ -13,10 +14,9 @@ export function Login() {
                 <InputForm name="password" type="password" moreClasses="mt-5" placeholder="Digite sua senha" />
                 <a href="#" className="mt-4 ml-8 forgot self-start"><strong>Forgot password?</strong></a>
             </div>
-            <div className="flex flex-col items-center"><button className="d-block text-white py-4 mx-auto">Login</button></div>
+            <div className="flex flex-col items-center"><ButtonForm>Entrar</ButtonForm></div>
             <span className="block text-center mt-8" id="already">Já tem uma conta ?</span>
             <a href="" id="register-link" className="block text-center mt-1">Cadastrar-se</a>
-            
         </Div.container>
     )
 }

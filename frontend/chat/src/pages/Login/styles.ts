@@ -25,15 +25,6 @@ export const Div = {
       color: var(--pBlack-700);
     }
 
-    button {
-      background: var(--pBlue-300);
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 22px;
-      width: 86%;
-    }
-
     #already {
       font-weight: 500;
       font-size: 0.875rem;
