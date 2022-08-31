@@ -17,7 +17,7 @@ export function Register() {
             </div>
             <div className="flex flex-col items-center"><ButtonForm>Cadastrar</ButtonForm></div>
             <span className="block text-center mt-8" id="already">Já tem uma conta ?</span>
-            <Link to="/ " id="register-link" className="block text-center mt-1">Entrar</Link>
+            <Link to="/ " id="register-link" className="block text-center mt-1 text-pBlue-300">Entrar</Link>
         </Div.container>
     )
 }
