@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Actions } from './pages/Actions';
 import { Chats } from './pages/Chats';
 import { CreateRoom } from './pages/CreateRoom';
-import { EnterRoom } from './pages/enterRoom';
+import { EnterRoom } from './pages/EnterRoom';
 import { Login } from './pages/Login'
 import { Register } from './pages/Register';
 
