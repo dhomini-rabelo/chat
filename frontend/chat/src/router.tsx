@@ -5,6 +5,7 @@ import { CreateRoom } from './pages/CreateRoom';
 import { EnterRoom } from './pages/EnterRoom';
 import { Login } from './pages/Login'
 import { Register } from './pages/Register';
+import { Room } from './pages/Room';
 
 
 
@@ -16,6 +17,7 @@ export function RouterController() {
                 <Route path="/" element={<Login />} />
                 <Route path="/cadastro" element={<Register />} />
                 <Route path="/chats" element={<Chats />} />
+                <Route path="/sala" element={<Room />} />
                 <Route path="/acoes" element={<Actions />} />
                 <Route path="/acoes/entrar-na-sala" element={<EnterRoom />} />
                 <Route path="/acoes/criar-sala" element={<CreateRoom />} />

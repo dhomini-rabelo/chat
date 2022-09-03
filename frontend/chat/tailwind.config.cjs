@@ -25,6 +25,7 @@ module.exports = {
         pBlack: {
           100: '#AAB0B7',
           300: '#58616A',
+          600: '#2b3d4e',
           700: '#243443',
         },
         pGray: {
