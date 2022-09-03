@@ -22,7 +22,9 @@ export function Actions() {
             <div className="w-full mb-4">
                 <div className="flex flex-col items-center mb-2">
                     <ButtonForm>
-                        <span><ChatCircleDots size={24} className="inline" /> Criar uma sala</span>
+                        <Link to="/acoes/criar-sala">
+                            <span><ChatCircleDots size={24} className="inline" /> Criar uma sala</span>
+                        </Link>
                     </ButtonForm>
                 </div>
                 <div className="flex flex-col items-center">
