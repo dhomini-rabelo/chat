@@ -7,10 +7,6 @@ export const Div = {
 
   container: styled.div`
     max-width: 20rem;
-
-    .back {
-      font-weight: 700;
-    }
   `,
   
 }
