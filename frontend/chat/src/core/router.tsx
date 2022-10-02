@@ -18,10 +18,10 @@ export function RouterController() {
                 <Route path="/" element={<Login />} />
                 <Route path="/cadastro" element={<Register />} />
                 <Route path="/chats" element={<AuthRoute Route={<Chats />} />} />
-                <Route path="/sala" element={<Room />} />
-                <Route path="/acoes" element={<Actions />} />
-                <Route path="/acoes/entrar-na-sala" element={<EnterRoom />} />
-                <Route path="/acoes/criar-sala" element={<CreateRoom />} />
+                <Route path="/sala" element={<AuthRoute Route={<Room />} />} />
+                <Route path="/acoes" element={<AuthRoute Route={<Actions />} />} />
+                <Route path="/acoes/entrar-na-sala" element={<AuthRoute Route={<EnterRoom />} />} />
+                <Route path="/acoes/criar-sala" element={<AuthRoute Route={<CreateRoom />} />} />
             </Routes>
         </BrowserRouter>
     )
