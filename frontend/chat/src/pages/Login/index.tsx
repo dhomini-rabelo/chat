@@ -3,9 +3,22 @@ import { Button, Div } from './styles';
 import { InputForm } from './../../themes/inputs';
 import { ButtonForm } from './../../themes/buttons';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { client } from '../../core/settings';
 
 
 export function Login() {
+
+    async function helloApi() {
+        const request = await client.get('/hello')
+        console.log(request.status)
+    }
+
+    useEffect(() => {
+        helloApi()
+    }, [])
+
+
     return (
         <Div.container className="min-h-screen mx-auto">
             <div className="pt-16"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
