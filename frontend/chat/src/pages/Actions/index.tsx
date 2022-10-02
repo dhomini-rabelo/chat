@@ -1,4 +1,3 @@
-import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from '../../themes/inputs';
 import { ButtonForm } from '../../themes/buttons';
@@ -14,7 +13,7 @@ export function Actions() {
                 <div className="pt-4 w-full">
                     <BackButton to="/chats" />
                 </div>
-                <div className="pt-12"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
+                <div className="pt-12"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             </div>
 
             <img src="https://images.unsplash.com/photo-1525770041010-2a1233dd8152?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTI4fHxjaGF0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="chat-app-image" className="mx-auto block rounded-full h-64 w-64" />

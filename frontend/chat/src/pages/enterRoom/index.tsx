@@ -1,4 +1,3 @@
-import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from '../../themes/inputs';
 import { ButtonForm } from '../../themes/buttons';
@@ -15,11 +14,11 @@ export function EnterRoom() {
                 <div className="pt-4 w-full">
                     <BackButton to="/acoes" />
                 </div>
-                <div className="pt-12"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
+                <div className="pt-12"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             </div>
 
             <div className="w-full self-center grow mt-48">
-                
+
                 <div className="flex flex-col items-center">
                     <InputForm name="username" placeholder="Digite o código da sala" moreClasses="mb-5" />
                     <ButtonForm>

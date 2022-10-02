@@ -1,4 +1,3 @@
-import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from '../../themes/inputs';
 import { ButtonForm } from '../../themes/buttons';
@@ -8,7 +7,7 @@ import { Link } from 'react-router-dom';
 export function Register() {
     return (
         <Div.container className="min-h-screen mx-auto">
-            <div className="pt-16"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
+            <div className="pt-16"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             <h3 className="py-10 text-pBlack-700 text-center"><strong>Cadastro</strong></h3>
             <div className="flex flex-col items-center mb-32 sm:mb-8">
                 <InputForm name="name" placeholder="Digite seu nome" />

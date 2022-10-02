@@ -1,4 +1,3 @@
-import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from '../../themes/inputs';
 import { ButtonForm } from '../../themes/buttons';

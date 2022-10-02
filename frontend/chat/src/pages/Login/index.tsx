@@ -1,4 +1,3 @@
-import logoSvg from '../../assets/images/logo.svg'
 import { Button, Div } from './styles';
 import { InputForm } from './../../themes/inputs';
 import { ButtonForm } from './../../themes/buttons';
@@ -8,20 +7,9 @@ import { client } from '../../core/settings';
 
 
 export function Login() {
-
-    async function helloApi() {
-        const request = await client.get('/hello')
-        console.log(request.status)
-    }
-
-    useEffect(() => {
-        helloApi()
-    }, [])
-
-
     return (
         <Div.container className="min-h-screen mx-auto">
-            <div className="pt-16"><img src={logoSvg} alt="project-logo" className="mx-auto h-12" /></div>
+            <div className="pt-16"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             <h3 className="py-10 text-pBlack-700 text-center"><strong>Login</strong></h3>
             <div className="flex flex-col items-center mb-40 sm:mb-8">
                 <InputForm name="username" placeholder="Digite seu username" />
