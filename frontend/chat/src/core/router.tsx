@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { AuthRoute } from '../code/utils/AuthRouter';
 import { Actions } from '../pages/Actions';
 import { Chats } from '../pages/Chats';
 import { CreateRoom } from '../pages/CreateRoom';
@@ -16,7 +17,7 @@ export function RouterController() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/cadastro" element={<Register />} />
-                <Route path="/chats" element={<Chats />} />
+                <Route path="/chats" element={<AuthRoute Route={<Chats />} />} />
                 <Route path="/sala" element={<Room />} />
                 <Route path="/acoes" element={<Actions />} />
                 <Route path="/acoes/entrar-na-sala" element={<EnterRoom />} />
