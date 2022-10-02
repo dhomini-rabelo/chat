@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # My apps
+    'apps.accounts.app.AccountsConfig',
     # Others apps
     'commands.CommandsConfig',
     
@@ -113,3 +114,5 @@ MEDIA_URL = '/media/'
 ACCOUNT_SESSION_REMEMBER = True
 STATIC_PAGE_CACHE_TIMEOUT = 60*60*2
 DEFAULT_APPS_FOLDER = 'apps'
+
+AUTH_USER_MODEL = 'accounts.User'
