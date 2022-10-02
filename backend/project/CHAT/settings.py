@@ -9,7 +9,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -29,12 +29,14 @@ INSTALLED_APPS = [
     # Others apps
     'rest_framework',
     'commands.CommandsConfig',
+    "corsheaders",
     
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -117,3 +119,6 @@ STATIC_PAGE_CACHE_TIMEOUT = 60*60*2
 DEFAULT_APPS_FOLDER = 'apps'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']
