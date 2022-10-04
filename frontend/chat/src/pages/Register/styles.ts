@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 
 
-export const Div = {
+export const Form = {
 
-  container: styled.div`
+  container: styled.form`
     max-width: 20rem;
 
     h3 {

@@ -1,10 +1,11 @@
-import { Button, Div } from './styles';
+import { Button, Form } from './styles';
 import { InputForm } from '../../themes/inputs';
 import { ButtonForm } from '../../themes/buttons';
 import { Link } from 'react-router-dom';
 import { RegisterUserSchemaType, RegisterUserSchema } from '../../code/schemas/user/register';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
+import { BaseSyntheticEvent } from 'react';
 
 
 
@@ -12,11 +13,19 @@ export function Register() {
     const registerForm = useForm<RegisterUserSchemaType>({
         resolver: zodResolver(RegisterUserSchema),
     })
-    const { handleSubmit, reset, register } = registerForm
+    const { handleSubmit, register } = registerForm
+
+    function onValidSubmit(data: RegisterUserSchemaType) {
+
+    }
+
+    function onInvalidSubmit(errors: FieldErrors<RegisterUserSchemaType>, event?: BaseSyntheticEvent) {
+
+    }
 
 
     return (
-        <Div.container className="min-h-screen mx-auto">
+        <Form.container onSubmit={handleSubmit(onValidSubmit, onInvalidSubmit)} className="min-h-screen mx-auto">
             <div className="pt-16"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             <h3 className="py-10 text-pBlack-700 text-center"><strong>Cadastro</strong></h3>
             <div className="flex flex-col items-center mb-32 sm:mb-8">
@@ -27,7 +36,7 @@ export function Register() {
             <div className="flex flex-col items-center"><ButtonForm>Cadastrar</ButtonForm></div>
             <span className="block text-center mt-8" id="already">Já tem uma conta ?</span>
             <Link to="/ " id="register-link" className="block text-center mt-1 text-pBlue-300">Entrar</Link>
-        </Div.container>
+        </Form.container>
     )
 }
 
