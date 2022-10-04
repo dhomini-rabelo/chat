@@ -55,6 +55,10 @@ html, body {
   color: var(--pBlack-700);
 }
 
+.input-form:focus {
+  border: 1px solid var(--pBlue-300);
+}
+
 .button-form {
   background: var(--pBlue-300);
   border-radius: 8px;
