@@ -16,14 +16,12 @@ export function Register() {
     })
     const { handleSubmit, formState: { errors }, register } = registerForm
 
-    console.log(errors)
 
     function onValidSubmit(data: RegisterUserSchemaType) {
 
     }
 
     function onInvalidSubmit(errors: FieldErrors<RegisterUserSchemaType>, event?: BaseSyntheticEvent) {
-        console.log(errors)
     }
 
 
