@@ -11,4 +11,7 @@ export const RegisterUserSchema = zod.object({
   username: zod.string().min(1, 'Este campo é obrigatório').max(150, 'Limite de 150 letras excedido'),
   password: zod.string().min(1, 'Este campo é obrigatório'),
   confirm_password: zod.string().min(1, 'Este campo é obrigatório'),
-});
+}).refine((data) => data.password === data.confirm_password, {
+  message: "As senhas são diferentes",
+  path: ["confirm_password"], // path of error
+})

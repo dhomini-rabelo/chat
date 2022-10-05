@@ -23,7 +23,7 @@ export function Register() {
     }
 
     function onInvalidSubmit(errors: FieldErrors<RegisterUserSchemaType>, event?: BaseSyntheticEvent) {
-
+        console.log(errors)
     }
 
 
