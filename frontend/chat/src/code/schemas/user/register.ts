@@ -8,7 +8,7 @@ export interface RegisterUserSchemaType {
 }
 
 export const RegisterUserSchema = zod.object({
-  username: zod.string().max(150, 'Este valor não deve ultrapassar 150 letras'),
-  password: zod.string(),
-  confirm_password: zod.string(),
+  username: zod.string().min(1, 'Este campo é obrigatório').max(150, 'Limite de 150 letras excedido'),
+  password: zod.string().min(1, 'Este campo é obrigatório'),
+  confirm_password: zod.string().min(1, 'Este campo é obrigatório'),
 });

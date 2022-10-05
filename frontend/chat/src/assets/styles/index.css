@@ -44,15 +44,30 @@ html, body {
   margin: 0 auto;
 }
 
+.form-container-df {
+  width: 86%;
+}
+
 .input-form {
   border: 1px solid var(--pBlack-100);
   border-radius: 8px;
-  width: 86%;
   padding-left: 1.25rem;
   font-size: 0.875rem;
   line-height: 1.125rem;
   font-weight: 500;
   color: var(--pBlack-700);
+}
+
+.input-field:has(.span-error) input {
+  border: 1px solid red;
+}
+
+.input-field {
+  padding-bottom: 1.5rem;
+}
+
+.input-field:has(.span-error) {
+  padding-bottom: 0rem;
 }
 
 .input-form:focus {
@@ -65,7 +80,6 @@ html, body {
   font-weight: 500;
   font-size: 1.125rem;
   line-height: 1.375rem;
-  width: 86%;
 }
 
 .text-max {
