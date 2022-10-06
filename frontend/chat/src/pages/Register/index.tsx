@@ -8,6 +8,8 @@ import { FieldErrors, useForm } from 'react-hook-form';
 import { BaseSyntheticEvent } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { client } from '../../core/settings';
+import { ModalError } from '../../components/ModalError';
+import { ModalSuccess } from '../../components/ModalSuccess';
 
 
 
@@ -19,14 +21,20 @@ export function Register() {
     const { handleSubmit, formState: { errors }, register } = registerForm
 
 
-    async function onValidSubmit(data: RegisterUserSchemaType) {
-
-
+    function onValidSubmit(data: RegisterUserSchemaType) { // async
+        // const request = await client.post('create-user', data)
+        // if (request.status === 201) {
+        //     // success modal
+        // } else {
+        //     // modal with all errors
+        // }
     }
 
 
     return (
         <Form.container onSubmit={handleSubmit(onValidSubmit)} className="min-h-screen mx-auto">
+            <ModalError errorMessage="username inválido" onClose={() => { }} />
+            {/* <ModalSuccess message="Usuário criado com sucesso" onClose={() => { }} /> */}
             <div className="pt-16"><img src="logo.svg" alt="project-logo" className="mx-auto h-12" /></div>
             <h3 className="py-10 text-pBlack-700 text-center"><strong>Cadastro</strong></h3>
             <div className="form-container-df mx-auto">
