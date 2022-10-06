@@ -1,6 +1,6 @@
-import { ReactNode, useState } from "react"
-import { ModalError } from "../../components/ModalError"
-import { ModalSuccess } from "../../components/ModalSuccess"
+import { ReactNode, useState } from 'react'
+import { ModalError } from '../../components/ModalError'
+import { ModalSuccess } from '../../components/ModalSuccess'
 
 export function useFeedback() {
   const [FeedbackElement, setFeedbackElement] = useState<string | ReactNode>('')
@@ -10,7 +10,11 @@ export function useFeedback() {
     error: ModalError,
   }
 
-  function renderFeedback(type: keyof typeof feedbackTypes, message: string, onClose: () => void = () => { }) {
+  function renderFeedback(
+    type: keyof typeof feedbackTypes,
+    message: string,
+    onClose: () => void,
+  ) {
     const FeedComponent = feedbackTypes[type]
     setFeedbackElement(<FeedComponent message={message} onClose={onClose} />)
   }
