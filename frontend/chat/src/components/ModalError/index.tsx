@@ -4,10 +4,10 @@ import { Fragment, useState } from 'react'
 
 
 export function ModalError({
-    errorMessage,
+    message,
     onClose,
 }: {
-    errorMessage: string
+        message: string
     onClose: () => void
 }) {
     const [isOpen, setIsOpen] = useState<boolean>(true)
@@ -58,7 +58,7 @@ export function ModalError({
                                     </Dialog.Title>
                                     <div className="mt-6 w-full flex flex-col items-center justify-center">
                                         <XCircle size={92} weight="fill" className="text-red-600" />
-                                        <span className="text-red-700 text-lg">{errorMessage}</span>
+                                        <span className="text-red-700 text-lg">{message}</span>
                                     </div>
 
                                     <div className="mt-6">
