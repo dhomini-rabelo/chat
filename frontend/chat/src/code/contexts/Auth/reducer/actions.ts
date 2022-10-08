@@ -5,10 +5,13 @@ export enum AuthActions {
 /* eslint-enable */
 
 export const AuthConsumer = {
-  login(token: string) {
+  login(username: string, token: string) {
     return {
       type: AuthActions.LOGIN,
-      payload: token,
+      payload: {
+        username,
+        token,
+      },
     }
   },
 }

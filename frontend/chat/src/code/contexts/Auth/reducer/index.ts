@@ -10,6 +10,7 @@ export function AuthReducer(
       return {
         isAuthenticated: true,
         token: action.payload.token,
+        username: action.payload.username,
       }
   }
 }

@@ -8,4 +8,5 @@ export type AuthReducerAction = {
 export interface AuthType {
   token: string
   isAuthenticated: boolean
+  username: string
 }
