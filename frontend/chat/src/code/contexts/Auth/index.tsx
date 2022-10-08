@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useReducer } from 'react'
+import { client } from '../../../core/settings'
 import { AuthReducer } from './reducer'
 import { AuthConsumer } from './reducer/actions'
 import { AuthContextType } from './types'
@@ -13,6 +14,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   })
 
   function login(username: string, token: string) {
+    client.defaults.headers.common.Authorization = `Bearer ${token}`
     authDispatch(AuthConsumer.login(username, token))
   }
 
