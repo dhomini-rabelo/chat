@@ -1,4 +1,5 @@
+import { AuthType } from './reducer/types'
+
 export interface AuthContextType {
-  token: string,
-  isAuthenticated: boolean,
+  auth: AuthType
 }

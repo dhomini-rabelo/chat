@@ -9,5 +9,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     token: '',
     isAuthenticated: false,
   })
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ auth }}>{children}</AuthContext.Provider>
+  )
 }

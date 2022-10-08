@@ -1,11 +1,10 @@
-import { AuthContextType } from '../types'
 import { AuthActions } from './actions'
-import { AuthReducerAction } from './types'
+import { AuthReducerAction, AuthType } from './types'
 
 export function AuthReducer(
-  state: AuthContextType,
+  state: AuthType,
   action: AuthReducerAction,
-): AuthContextType {
+): AuthType {
   switch (action.type) {
     case AuthActions.LOGIN:
       return {
