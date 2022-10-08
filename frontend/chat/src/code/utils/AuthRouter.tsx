@@ -1,20 +1,18 @@
-import { ReactNode, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/Auth";
-
-
+import { ReactNode, useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../contexts/Auth'
 
 export function AuthRoute({ Route }: { Route: ReactNode }) {
   const navigateTo = useNavigate()
-  const { isAuthenticated } = useContext(AuthContext)
+  const {
+    auth: { isAuthenticated },
+  } = useContext(AuthContext)
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigateTo('/')
     }
-  }, [])
+  }, [isAuthenticated, navigateTo])
 
-  return isAuthenticated ? (
-    <div>{Route}</div>
-  ) : <></>
+  return isAuthenticated ? <div>{Route}</div> : <></>
 }
