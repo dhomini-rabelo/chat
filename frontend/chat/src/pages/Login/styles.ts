@@ -1,11 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-
-
-export const Div = {
-
-
-  container: styled.div`
+export const Form = {
+  container: styled.form`
     max-width: 20rem;
 
     h3 {
@@ -30,10 +26,4 @@ export const Div = {
       color: var(--pBlack-700);
     }
   `,
-  
-}
-
-
-export const Button = {
-
 }
