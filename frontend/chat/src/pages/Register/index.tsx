@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { useFeedback } from '../../code/hooks/useFeedback'
 import { client } from '../../core/settings'
+import { ErrorSpan } from '../../components/ErrorSpan'
 
 export function Register() {
   const navigateTo = useNavigate()
@@ -65,11 +66,7 @@ export function Register() {
               <ErrorMessage
                 errors={errors}
                 name="username"
-                render={({ message }) => (
-                  <span className="w-full text-red-500 mx-auto text-xs h-3 mt-1 pl-2 span-error">
-                    {message}
-                  </span>
-                )}
+                render={({ message }) => <ErrorSpan message={message} />}
               />
             </div>
             <div className="w-full input-field mt-3">
@@ -82,11 +79,7 @@ export function Register() {
               <ErrorMessage
                 errors={errors}
                 name="password"
-                render={({ message }) => (
-                  <span className="w-full text-red-500 mx-auto text-xs h-3 mt-1 pl-2 span-error">
-                    {message}
-                  </span>
-                )}
+                render={({ message }) => <ErrorSpan message={message} />}
               />
             </div>
             <div className="w-full input-field mt-3">
@@ -99,11 +92,7 @@ export function Register() {
               <ErrorMessage
                 errors={errors}
                 name="confirm_password"
-                render={({ message }) => (
-                  <span className="w-full text-red-500 mx-auto text-xs h-3 mt-1 pl-2 span-error">
-                    {message}
-                  </span>
-                )}
+                render={({ message }) => <ErrorSpan message={message} />}
               />
             </div>
           </div>
