@@ -14,6 +14,7 @@ class UserForChatSerializer(serializers.ModelSerializer):
 
 
 class ChatSerializer(serializers.ModelSerializer):
+    created_by = UserForChatSerializer()
     code = serializers.CharField(max_length=5, required=False)
     messages = serializers.JSONField(required=False)
     users = UserForChatSerializer(many=True, required=False)

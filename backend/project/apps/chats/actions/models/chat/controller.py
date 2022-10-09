@@ -24,3 +24,4 @@ class ChatController:
             code_exists = Chat.objects.filter(code=code).exists()
 
         return code
+    
