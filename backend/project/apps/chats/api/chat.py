@@ -21,8 +21,8 @@ class CreateChatApi(generics.CreateAPIView):
 
 class ListChatsFromUserApi(APIView):
 
-    def get(self, request, user_id: int):
-        user = get_object_or_404(User.objects.prefetch_related('chats'), id=user_id)
+    def get(self, request, username: str):
+        user = get_object_or_404(User.objects.prefetch_related('chats'), username=username)
         serializer = ChatSerializer(user.chats.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
