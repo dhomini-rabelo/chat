@@ -34,11 +34,17 @@ export function Login() {
         navigateTo('/chats')
       })
       .catch((error) => {
-        const ErrorMessageData: Array<string[]> = Object.values(
-          error.response.data,
-        )
-        const ErrorMessage: string = ErrorMessageData[0][0]
-        renderFeedback('error', ErrorMessage)
+        if (error.response.status === 400) {
+          const ErrorMessageData: Array<string[]> = Object.values(
+            error.response.data,
+          )
+          const ErrorMessage: string = ErrorMessageData[0][0]
+          renderFeedback('error', ErrorMessage)
+        } else if (error.response.status === 401) {
+          renderFeedback('error', 'Credenciais incorretas')
+        } else {
+          renderFeedback('error', 'Server Error')
+        }
       })
   }
 
