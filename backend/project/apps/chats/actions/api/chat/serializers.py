@@ -1,5 +1,6 @@
 from apps.accounts.app.models.user import User
 from apps.chats.actions.api.chat.types import ChatValidatedDataType
+from apps.chats.actions.models.chat.controller import ChatController
 from apps.chats.actions.models.chat.types import MessagesType
 from apps.chats.app.models import Chat
 from rest_framework import serializers
@@ -19,7 +20,7 @@ class ChatSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: ChatValidatedDataType):
         new_chat = Chat(**validated_data)
-        new_chat.code = 'AB-123'
+        new_chat.code = ChatController.generate_code()
         new_chat.messages: MessagesType = {
             "messages": [],
             "last_message": None
