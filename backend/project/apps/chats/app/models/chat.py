@@ -6,7 +6,7 @@ from apps.accounts.app.models import User
 class Chat(Model):
     created_by = ForeignKey(User, on_delete=SET_NULL, null=True, related_name='created_chats')
     code = CharField(max_length=5)
-    image = CharField(max_length=100000000)
-    messages = JSONField() # { messages -> [{ user_id, created, message }, ], last_message: { user_id, created, message } }
+    image = CharField(max_length=100000000) # base64
+    messages = JSONField() # MessagesType -> apps\chats\actions\models\chat\types.py
     users = ManyToManyField(User, related_name='chats')
     created_at = DateTimeField(auto_now_add=True)
