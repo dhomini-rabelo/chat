@@ -1,7 +1,7 @@
 import { Div } from './styles'
 import { BackButton } from '../../components/BackButton'
 
-export function Room() {
+export function Chat() {
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full flex items-center justify-between mt-6">

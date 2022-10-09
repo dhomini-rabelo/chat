@@ -3,7 +3,7 @@ import { ButtonForm } from '../../themes/buttons'
 import { SignIn } from 'phosphor-react'
 import { BackButton } from '../../components/BackButton'
 
-export function EnterRoom() {
+export function EnterChat() {
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full">

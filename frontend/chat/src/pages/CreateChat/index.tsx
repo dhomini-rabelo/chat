@@ -3,7 +3,7 @@ import { ButtonForm } from '../../themes/buttons'
 import { ChatCircleDots, PencilSimple, User } from 'phosphor-react'
 import { BackButton } from '../../components/BackButton'
 
-export function CreateRoom() {
+export function CreateChat() {
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full">

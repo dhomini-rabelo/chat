@@ -23,7 +23,7 @@ export function Chats() {
               Brb, watch some Dark here
             </span>
           </div>
-          <Link className="flex flex-col items-end" to="/sala">
+          <Link className="flex flex-col items-end" to="/chat">
             <span className="text-pBlack-300 text-xs mr-4">2min ago</span>
             <svg
               width="24"
