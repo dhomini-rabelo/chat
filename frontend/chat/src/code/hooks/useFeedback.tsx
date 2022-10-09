@@ -13,7 +13,9 @@ export function useFeedback() {
   function renderFeedback(
     type: keyof typeof feedbackTypes,
     message: string,
-    onClose: () => void = () => { },
+    onClose: () => void = () => {
+      setFeedbackElement('')
+    },
   ) {
     const FeedComponent = feedbackTypes[type]
     setFeedbackElement(<FeedComponent message={message} onClose={onClose} />)
