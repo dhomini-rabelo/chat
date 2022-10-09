@@ -15,7 +15,7 @@ export function Chats() {
         <strong className="underline underline-offset-2">{username}</strong>
       </div>
       <div className="pt-6 grow flex flex-col pb-20">
-        {/* <Div.chat className="flex items-center justify-between py-3">
+        <Div.chat className="flex items-center justify-between py-3">
           <div className="rounded-full h-12 w-12 bg-pBlue-300"></div>
           <div className="flex flex-col items-start grow ml-3 mr-3">
             <strong className="text-pBlack-700 leading-5">AX-456</strong>
@@ -23,7 +23,7 @@ export function Chats() {
               Brb, watch some Dark here
             </span>
           </div>
-          <div className="flex flex-col items-end">
+          <Link className="flex flex-col items-end" to="/sala">
             <span className="text-pBlack-300 text-xs mr-4">2min ago</span>
             <svg
               width="24"
@@ -39,8 +39,8 @@ export function Chats() {
                 fill="#243443"
               />
             </svg>
-          </div>
-        </Div.chat> */}
+          </Link>
+        </Div.chat>
         <div className="flex flex-col items-center justify-center grow">
           <div className="flex flex-col items-center">
             <ChatText size={96} className="text-pBlack-600" />
