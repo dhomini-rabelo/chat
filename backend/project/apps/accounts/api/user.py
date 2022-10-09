@@ -1,5 +1,5 @@
 from rest_framework import generics
-from apps.accounts.api.serializer import UserSerializer
+from apps.accounts.actions.api.user.serializers import UserSerializer
 from ..app.models import User
 
 

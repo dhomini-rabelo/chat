@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from apps.accounts.api.types import CreateUserRequestBodyType, CreateUserValidatedDataType
-from ..app.models import User
+from apps.accounts.actions.api.user.types import CreateUserRequestBodyType, CreateUserValidatedDataType
+from apps.accounts.app.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
