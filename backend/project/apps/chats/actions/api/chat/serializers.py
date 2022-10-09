@@ -14,10 +14,14 @@ class UserForChatSerializer(serializers.ModelSerializer):
 
 
 class ChatSerializer(serializers.ModelSerializer):
-    created_by = UserForChatSerializer()
     code = serializers.CharField(max_length=5, required=False)
     messages = serializers.JSONField(required=False)
     users = UserForChatSerializer(many=True, required=False)
+
+    def to_representation(self, instance: Chat):
+        representation = super().to_representation(instance)
+        representation['created_by'] = instance.created_by.username
+        return representation
 
     def create(self, validated_data: ChatValidatedDataType):
         new_chat = Chat(**validated_data)

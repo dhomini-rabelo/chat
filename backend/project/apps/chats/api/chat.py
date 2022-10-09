@@ -12,7 +12,6 @@ from ..app.models import Chat
 class CreateChatApi(generics.CreateAPIView):
     serializer_class = ChatSerializer
     queryset = Chat.objects.all()
-    permission_classes: list[BasePermission] = [IsAuthenticated]
 
     def get_serializer(self, data: dict[str, Any]):
         new_data = data.copy()
@@ -21,7 +20,6 @@ class CreateChatApi(generics.CreateAPIView):
 
 
 class ListChatsFromUserApi(APIView):
-    permission_classes: list[BasePermission] = [IsAuthenticated]
 
     def get(self, request, user_id: int):
         user = get_object_or_404(User.objects.prefetch_related('chats'), id=user_id)
