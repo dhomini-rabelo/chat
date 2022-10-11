@@ -23,10 +23,6 @@ class ChatConsumer(JsonWebsocketConsumer):
                 "message": f"connected at {self.chat.code}",
             }
         )
-        async_to_sync(self.channel_layer.group_add)(
-            self.chat.code,
-            str(self.chat.id),
-        )
         async_to_sync(self.channel_layer.group_send)(
                 self.chat.code,
                 {
