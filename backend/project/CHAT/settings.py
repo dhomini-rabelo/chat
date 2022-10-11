@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     # Others apps
     'rest_framework',
     'commands.CommandsConfig',
-    "corsheaders",
+    'corsheaders',
+    'channels',
     
 ]
 
@@ -64,7 +65,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CHAT.wsgi.application'
-
+ASGI_APPLICATION = 'CHAT.asgi.application'
 
 
 DATABASES = {
@@ -129,4 +130,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
