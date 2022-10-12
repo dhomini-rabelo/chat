@@ -11,38 +11,39 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
-        self.chat = None
-        self.user = None
+        self.chat: Chat | None = None
+        self.tokens_from_users: dict[str, str] = {} # authenticated and connected users
 
     # CONNECTIONS
 
     def connect(self):
         code = self.scope['url_route']['kwargs']['code']
+        # user_token = self.scope['headers']['Authorization']
         self.chat = Chat.objects.get(code=code)
-        # self.user = get_user_from_token, só aceita conexão com token, depois payload pega o username diretamente
+        self.user = f"user {randint(1, 50)}"
         self.accept()
-        self.send_json(
-            {
-                "type": "connect",
-                "message": f"connected at {self.chat.code}",
-            }
-        )
         async_to_sync(self.channel_layer.group_add)(
-                self.chat.code,
-                self.channel_name,
+            self.chat.code,
+            self.channel_name,
         )
+        self.send_json({
+            "type": "connect",
+            "payload": {
+                "connected": True
+            }
+        })
         async_to_sync(self.channel_layer.group_send)(
-                self.chat.code,
-                {
-                    "type": "new.connection",
-                    "payload": {
-                        "user": f"user {randint(1, 50)} connected"
-                    }
-                },
+            self.chat.code,
+            {
+                "type": "new.connection",
+                "payload": {
+                    "user": f"{self.user} connected"
+                }
+            },
         )
     
     def disconnect(self, code):
-         async_to_sync(self.channel_layer.group_add)(
+         async_to_sync(self.channel_layer.group_discard)(
             self.chat.code,
             self.channel_name,
         )
@@ -52,11 +53,11 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content, **kwargs):
         print('receive_json: ', content)
         async_to_sync(self.channel_layer.group_send)(
-                self.chat.code,
-                {
-                    "type": "new.message",
-                    "payload": content
-                },
+            self.chat.code,
+            {
+                "type": "new.message",
+                "payload": content
+            },
         )
 
     # EVENTS
@@ -72,5 +73,8 @@ class ChatConsumer(JsonWebsocketConsumer):
         print('event: ', event)
         self.send_json({
             "type": "new.message",
-            "payload": event['payload']['message']
+            "payload": {
+                "user": "",
+                "message": event['payload']['message'],
+            }
         })
