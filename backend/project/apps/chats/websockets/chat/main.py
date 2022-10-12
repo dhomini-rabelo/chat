@@ -1,3 +1,4 @@
+from random import randint
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from apps.chats.app.models import Chat
@@ -11,11 +12,14 @@ class ChatConsumer(JsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.chat = None
+        self.user = None
+
+    # CONNECTIONS
 
     def connect(self):
         code = self.scope['url_route']['kwargs']['code']
         self.chat = Chat.objects.get(code=code)
-        print(self.chat)
+        # self.user = get_user_from_token, só aceita conexão com token, depois payload pega o username diretamente
         self.accept()
         self.send_json(
             {
@@ -23,32 +27,50 @@ class ChatConsumer(JsonWebsocketConsumer):
                 "message": f"connected at {self.chat.code}",
             }
         )
+        async_to_sync(self.channel_layer.group_add)(
+                self.chat.code,
+                self.channel_name,
+        )
         async_to_sync(self.channel_layer.group_send)(
                 self.chat.code,
                 {
-                    "type": "chat.message",
-                    "payload": "oi"
+                    "type": "new.connection",
+                    "payload": {
+                        "user": f"user {randint(1, 50)} connected"
+                    }
                 },
         )
-        #
-
+    
     def disconnect(self, code):
-        print("Disconnected!")
-        return super().disconnect(code)
+         async_to_sync(self.channel_layer.group_add)(
+            self.chat.code,
+            self.channel_name,
+        )
+
+    # RECEIVE DATA
 
     def receive_json(self, content, **kwargs):
-        print(content)
+        print('receive_json: ', content)
         async_to_sync(self.channel_layer.group_send)(
                 self.chat.code,
                 {
-                    "type": "chat.message",
+                    "type": "new.message",
                     "payload": content
                 },
         )
-        # return super().receive_json(content, **kwargs)
 
-    def chat_message(self, event):
-        print('event', event)
+    # EVENTS
+
+    def new_connection(self, event):
+        print('event: ', event)
         self.send_json({
-            "a": "b"
+            "type": "new.connection",
+            "payload": event['payload']['user'],
+        })
+
+    def new_message(self, event):
+        print('event: ', event)
+        self.send_json({
+            "type": "new.message",
+            "payload": event['payload']['message']
         })
