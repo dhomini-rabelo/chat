@@ -22,7 +22,7 @@ export function ChatList({ chat }: { chat: ChatType }) {
           {chat.messages.last_message?.text || '...'}
         </span>
       </div>
-      <Link className="flex flex-col items-end" to="/chat">
+      <Link className="flex flex-col items-end" to={`/chat/${chat.code}`}>
         <span className="text-pBlack-300 text-xs mr-4">
           {formatDistanceToNow(chatLastDate, {
             locale: ptBR,

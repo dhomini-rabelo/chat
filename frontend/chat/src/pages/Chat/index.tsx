@@ -1,34 +1,56 @@
 import { Div } from './styles'
 import { BackButton } from '../../components/BackButton'
-import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { client } from '../../core/settings'
+import { ChatType } from '../../code/types/chat'
+// import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 export function Chat() {
-  const { readyState } = useWebSocket('ws://127.0.0.1:8000/chats/AB-123', {
-    onOpen: (e) => {
-      console.log('Connected!', e)
-    },
-    onClose: (e) => {
-      console.log('Disconnected!', e)
-    },
-    onMessage: (e) => {
-      console.log(e)
-    },
-  })
+  const params = useParams()
+  const [chat, setChat] = useState<ChatType | null>(null)
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  }[readyState]
+  useEffect(() => {
+    client.get(`chat-detail/${params.code}`).then((response) => {
+      setChat(response.data as ChatType)
+    })
+  }, [params.code])
+
+  // const { readyState } = useWebSocket('ws://127.0.0.1:8000/chats/AB-123', {
+  //   onOpen: (e) => {
+  //     console.log('Connected!', e)
+  //   },
+  //   onClose: (e) => {
+  //     console.log('Disconnected!', e)
+  //   },
+  //   onMessage: (e) => {
+  //     console.log(e)
+  //   },
+  // })
+
+  // const connectionStatus = {
+  //   [ReadyState.CONNECTING]: 'Connecting',
+  //   [ReadyState.OPEN]: 'Open',
+  //   [ReadyState.CLOSING]: 'Closing',
+  //   [ReadyState.CLOSED]: 'Closed',
+  //   [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+  // }[readyState]
+  // { connectionStatus }
 
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full flex items-center justify-between mt-6">
         <BackButton to="/chats" />
-        <strong>AX-456 {connectionStatus}</strong>
-        <div className="rounded-full h-12 w-12 bg-pBlue-300"></div>
+        <strong>{chat?.code || '...'}</strong>
+        {chat ? (
+          <img
+            className="rounded-full h-12 w-12 bg-pBlue-300"
+            src={chat.image}
+            alt="chat-image"
+          />
+        ) : (
+          <div className="rounded-full h-12 w-12 bg-gray-400"></div>
+        )}
       </div>
 
       <div

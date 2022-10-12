@@ -15,7 +15,7 @@ export function RouterController() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastro" element={<Register />} />
         <Route path="/chats" element={<AuthRoute Route={<Chats />} />} />
-        <Route path="/chat" element={<AuthRoute Route={<Chat />} />} />
+        <Route path="/chat/:code" element={<AuthRoute Route={<Chat />} />} />
         <Route path="/acoes" element={<AuthRoute Route={<Actions />} />} />
         <Route
           path="/acoes/entrar-no-chat"
