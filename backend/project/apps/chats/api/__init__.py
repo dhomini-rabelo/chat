@@ -1,1 +1,1 @@
-from .chat import CreateChatApi, ListChatsFromUserApi
+from .chat import CreateChatAPI, ListChatsFromUserAPI, ChatDetailAPI

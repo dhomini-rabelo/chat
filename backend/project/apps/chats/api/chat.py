@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from ..app.models import Chat
 
 
-class CreateChatApi(generics.CreateAPIView):
+class CreateChatAPI(generics.CreateAPIView):
     serializer_class = ChatSerializer
     queryset = Chat.objects.all()
 
@@ -19,10 +19,18 @@ class CreateChatApi(generics.CreateAPIView):
         return super().get_serializer(data=new_data)
 
 
-class ListChatsFromUserApi(APIView):
+class ListChatsFromUserAPI(APIView):
 
     def get(self, request, username: str):
         user = get_object_or_404(User.objects.prefetch_related('chats'), username=username)
         serializer = ChatSerializer(user.chats.all(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+class ChatDetailAPI(APIView):
+
+    def get(self, request, code: str):
+        chat = get_object_or_404(Chat.objects.filter(code=code).select_related('created_by').prefetch_related('users'), code=code)
+        serializer = ChatSerializer(chat)
+        return Response(serializer.data, status=status.HTTP_200_OK)
