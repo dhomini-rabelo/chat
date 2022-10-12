@@ -1,12 +1,33 @@
 import { Div } from './styles'
 import { BackButton } from '../../components/BackButton'
+import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 export function Chat() {
+  const { readyState } = useWebSocket('ws://127.0.0.1:8000/chats/AB-123', {
+    onOpen: (e) => {
+      console.log('Connected!', e)
+    },
+    onClose: (e) => {
+      console.log('Disconnected!', e)
+    },
+    onMessage: (e) => {
+      console.log(e)
+    },
+  })
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: 'Connecting',
+    [ReadyState.OPEN]: 'Open',
+    [ReadyState.CLOSING]: 'Closing',
+    [ReadyState.CLOSED]: 'Closed',
+    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+  }[readyState]
+
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full flex items-center justify-between mt-6">
         <BackButton to="/chats" />
-        <strong>AX-456</strong>
+        <strong>AX-456 {connectionStatus}</strong>
         <div className="rounded-full h-12 w-12 bg-pBlue-300"></div>
       </div>
 
