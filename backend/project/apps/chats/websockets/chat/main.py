@@ -1,7 +1,9 @@
 from random import randint
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
+from Core.api.auth.utils import get_user_from_token
 from apps.chats.app.models import Chat
+from apps.chats.websockets.chat.types import new_connection_arg_type, validation_connection_response_type
 
 class ChatConsumer(JsonWebsocketConsumer):
     """
@@ -12,39 +14,57 @@ class ChatConsumer(JsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.chat: Chat | None = None
+        self.code: str | None = None
         self.tokens_from_users: dict[str, str] = {} # authenticated and connected users
 
     # CONNECTIONS
 
-    def connect(self):
-        code = self.scope['url_route']['kwargs']['code']
-        # user_token = self.scope['headers']['Authorization']
-        self.chat = Chat.objects.get(code=code)
-        self.user = f"user {randint(1, 50)}"
-        self.accept()
-        async_to_sync(self.channel_layer.group_add)(
-            self.chat.code,
-            self.channel_name,
-        )
-        self.send_json({
-            "type": "connect",
-            "payload": {
-                "connected": True
-            }
-        })
-        async_to_sync(self.channel_layer.group_send)(
-            self.chat.code,
-            {
-                "type": "new.connection",
-                "payload": {
-                    "user": f"{self.user} connected"
+    def validate_connection(self, code: str) -> validation_connection_response_type:
+        headers = {(k).decode('ascii'): (v).decode('ascii') for k,v in self.scope['headers']}
+        user_token = headers.get('authorization') or ''
+        user = get_user_from_token(user_token)
+        if user:
+            chat = Chat.objects.filter(code=code)
+            if chat:
+                return {
+                    "is_valid": True,
+                    "user": user,
+                    "chat": chat,
+                    "token": user_token,
                 }
-            },
-        )
+        return {
+            "is_valid": False,
+            "user": None,
+            "chat": None,
+            "token": None,
+        }
+
+    def connect(self):
+        self.code = self.scope['url_route']['kwargs'].get('code') or ''
+        validation = self.validate_connection(self.code)
+        if validation['is_valid']:
+            self.accept()
+            self.chat = validation["chat"]
+            user = validation['user']
+            async_to_sync(self.channel_layer.group_add)(
+                self.chat.code,
+                self.channel_name,
+            )
+            async_to_sync(self.channel_layer.group_send)(
+                self.chat.code,
+                {
+                    "type": "new.connection",
+                    "payload": {
+                        "username": user.username, 
+                    }
+                },
+            )
+        else:
+            self.close()
     
     def disconnect(self, code):
          async_to_sync(self.channel_layer.group_discard)(
-            self.chat.code,
+            self.code,
             self.channel_name,
         )
 
@@ -62,11 +82,13 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     # EVENTS
 
-    def new_connection(self, event):
+    def new_connection(self, event: new_connection_arg_type):
         print('event: ', event)
         self.send_json({
             "type": "new.connection",
-            "payload": event['payload']['user'],
+            "payload": {
+                "username": event["payload"]["username"]
+            },
         })
 
     def new_message(self, event):
