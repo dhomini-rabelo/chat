@@ -57,14 +57,14 @@ export function Chat() {
         id="messages-container"
         className="grow my-3 w-full flex flex-col justify-end"
       >
-        <div className="message self-start bg-pGray-300 p-2 flex flex-col text-pBlack-600">
+        <Div.message type="other" className="p-2 flex flex-col">
           <span className="w-full pr-7">Texto</span>
           <span className="self-end time">12:25</span>
-        </div>
-        <div className="message self-end bg-pBlue-300 p-2 flex flex-col text-pGray-100 mt-4">
-          <span className="w-full pr-7">Texto</span>
+        </Div.message>
+        <Div.message type="my" className="p-2 flex flex-col">
+          <span className="w-full pr-7">Texto meu</span>
           <span className="self-end time">12:25</span>
-        </div>
+        </Div.message>
       </div>
 
       <div className="w-full mb-8 relative">
