@@ -1,9 +1,12 @@
+from datetime import datetime
 from random import randint
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from Core.api.auth.utils import get_user_from_token
+from apps.chats.actions.models.chat.serializer import MessageSerializer
+from apps.chats.actions.models.chat.types import MessageType
 from apps.chats.app.models import Chat
-from apps.chats.websockets.chat.types import new_connection_arg_type, validation_connection_response_type
+from apps.chats.websockets.chat.types import new_connection_arg_type, new_message_arg_type, receive_json_content_arg_type, validation_connection_response_type
 
 class ChatConsumer(JsonWebsocketConsumer):
     """
@@ -29,7 +32,7 @@ class ChatConsumer(JsonWebsocketConsumer):
                 return {
                     "is_valid": True,
                     "user": user,
-                    "chat": chat,
+                    "chat": chat.first(),
                     "token": user_token,
                 }
         return {
@@ -46,6 +49,7 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.accept()
             self.chat = validation["chat"]
             user = validation['user']
+            self.tokens_from_users[validation['token']] = user.username
             async_to_sync(self.channel_layer.group_add)(
                 self.chat.code,
                 self.channel_name,
@@ -63,22 +67,41 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.close()
     
     def disconnect(self, code):
-         async_to_sync(self.channel_layer.group_discard)(
+        print(code)
+        async_to_sync(self.channel_layer.group_discard)(
             self.code,
             self.channel_name,
         )
 
     # RECEIVE DATA
 
-    def receive_json(self, content, **kwargs):
-        print('receive_json: ', content)
-        async_to_sync(self.channel_layer.group_send)(
-            self.chat.code,
-            {
-                "type": "new.message",
-                "payload": content
-            },
-        )
+    def receive_json(self, content: receive_json_content_arg_type, **kwargs):
+        username = self.tokens_from_users.get(content.get('token') or '')
+        if username:
+            serializer = MessageSerializer(data={'created_at': datetime.now(), 'username': username, 'text': content.get('text')})
+            if serializer.is_valid():
+                async_to_sync(self.channel_layer.group_send)(
+                    self.chat.code,
+                    {
+                        "type": "new.message",
+                        "payload": serializer.data,
+                    },
+                )
+            else:
+                self.send_json({
+                    "type": "error",
+                    "payload": {
+                        "message": serializer.errors,
+                    }
+                })
+        else:
+            self.send_json({
+                "type": "error",
+                "payload": {
+                    "message": 'Token inválido',
+                }
+            })
+
 
     # EVENTS
 
@@ -91,12 +114,9 @@ class ChatConsumer(JsonWebsocketConsumer):
             },
         })
 
-    def new_message(self, event):
+    def new_message(self, event: new_message_arg_type):
         print('event: ', event)
         self.send_json({
             "type": "new.message",
-            "payload": {
-                "user": "",
-                "message": event['payload']['message'],
-            }
+            "payload": event['payload']
         })
