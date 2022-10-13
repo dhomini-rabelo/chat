@@ -3,11 +3,17 @@ from typing import TypedDict
 
 
 class MessageType(TypedDict):
-    user_id: int
-    created_at: datetime
+    username: str
     text: str
+    created_at: str
 
 
 class MessagesType(TypedDict):
     messages: list[MessageType]
     last_message: None | MessageType
+
+
+class try_add_message_response(TypedDict):
+    was_success: bool
+    errors: dict[str, list[str]]
+    message: MessageType | None
