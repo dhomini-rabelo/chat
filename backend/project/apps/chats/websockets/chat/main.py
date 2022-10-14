@@ -49,7 +49,7 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.accept()
             self.chat = validation["chat"]
             user = validation['user']
-            self.tokens_from_users[validation['token']] = user.username
+            self.tokens_from_users[user.username] = validation['token']
             async_to_sync(self.channel_layer.group_add)(
                 self.chat.code,
                 self.channel_name,
@@ -67,7 +67,6 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.close()
     
     def disconnect(self, code):
-        print(code)
         async_to_sync(self.channel_layer.group_discard)(
             self.code,
             self.channel_name,
@@ -76,7 +75,7 @@ class ChatConsumer(JsonWebsocketConsumer):
     # RECEIVE DATA
 
     def receive_json(self, content: receive_json_content_arg_type, **kwargs):
-        username = self.tokens_from_users.get(content.get('token') or '')
+        username = self.get_username_from_token(content.get('token') or '')
         if username:
             serializer = MessageSerializer(data={'created_at': datetime.now(), 'username': username, 'text': content.get('text')})
             if serializer.is_valid():
@@ -120,3 +119,9 @@ class ChatConsumer(JsonWebsocketConsumer):
             "type": "new.message",
             "payload": event['payload']
         })
+
+    # SUPPORT
+
+    def get_username_from_token(self, token) -> str | None:
+        username_and_tokens: dict[str, str] = { v: k for k,v in self.tokens_from_users.items()}
+        return username_and_tokens.get(token)
