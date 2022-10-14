@@ -23,8 +23,7 @@ class ChatConsumer(JsonWebsocketConsumer):
     # CONNECTIONS
 
     def validate_connection(self, code: str) -> validation_connection_response_type:
-        headers = {(k).decode('ascii'): (v).decode('ascii') for k,v in self.scope['headers']}
-        user_token = headers.get('authorization') or ''
+        user_token = self.scope.get('query_string').decode('ascii').split('Authorization=')[::-1][0] if self.scope.get('query_string') else ''
         user = get_user_from_token(user_token)
         if user:
             chat = Chat.objects.filter(code=code)
@@ -43,6 +42,7 @@ class ChatConsumer(JsonWebsocketConsumer):
         }
 
     def connect(self):
+        print(self.scope)
         self.code = self.scope['url_route']['kwargs'].get('code') or ''
         validation = self.validate_connection(self.code)
         if validation['is_valid']:
