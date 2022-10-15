@@ -89,6 +89,9 @@ export function Chat() {
           className="p-2 flex flex-col mt-2"
           key={newChatContent.length}
         >
+          {username !== myUsername && (
+            <span className="font-bold text-xs mb-1">{username}</span>
+          )}
           <span className="w-full pr-7">{text}</span>
           <span className="self-end time">
             {messageCreatedDate.getHours()}:{messageCreatedDate.getMinutes()}
@@ -118,10 +121,7 @@ export function Chat() {
   }
 
   return (
-    <Div.container
-      className="min-h-screen mx-auto flex flex-col items-center justify-between"
-      style={{ maxHeight: '100vh !important' }}
-    >
+    <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <div className="w-full flex items-center justify-between mt-6">
         <BackButton to="/chats" />
         <strong>
@@ -141,7 +141,6 @@ export function Chat() {
       <div
         id="messages-container"
         className="grow my-3 w-full flex flex-col justify-end"
-        style={{ overflow: 'scroll' }}
       >
         {chatContent.map((Element) => Element)}
       </div>

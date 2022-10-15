@@ -5,6 +5,7 @@ type messageType = 'my' | 'other'
 export const Div = {
   container: styled.div`
     max-width: 20rem;
+    max-height: 100vh !important;
 
     #room-input {
       width: 100% !important;
@@ -24,7 +25,7 @@ export const Div = {
     border-radius: 8px;
     max-width: 84%;
     background-color: ${ type === 'my' ? "var(--pBlue-300)" : "var(--pGray-300)"};
-    align-self: ${type === 'my' ? "flex-start" : "flex-end"};
+    align-self: ${type === 'my' ? "flex-end" : "flex-start"};
     color: ${type === 'my' ? "var(--pGray-100)" : "var(--pBlack-600)"};
 
     .time {
