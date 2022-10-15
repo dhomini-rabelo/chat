@@ -10,9 +10,17 @@ export const Div = {
     line-height: 1.1875rem;
     border-radius: 8px;
     max-width: 84%;
-    background-color: ${type === 'my' ? "var(--pBlue-300)" : "var(--pGray-300)"};
-    align-self: ${type === 'my' ? "flex-end" : "flex-start"};
-    color: ${type === 'my' ? "var(--pGray-100)" : "var(--pBlack-600)"};
+
+    ${ type === 'my' ? `
+          background-color: var(--pBlue-300);
+          align-self: flex-end;
+          color: var(--pGray-100);
+      `: `
+          background-color: var(--pGray-300)};
+          align-self: flex-start;
+          color: var(--pBlack-600);
+      `
+    }
 
     .time {
       font-size: 0.6rem;
