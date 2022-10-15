@@ -18,7 +18,7 @@ export function Message({
       className="p-2 flex flex-col mt-2"
     >
       {username !== myUsername && (
-        <span className="font-extrabold text-xs mb-1">{username}</span>
+        <span className="font-extrabold text-sm mb-1">{username}</span>
       )}
       <span className="w-full pr-7">{text}</span>
       <span className="self-end time">

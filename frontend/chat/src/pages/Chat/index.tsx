@@ -9,6 +9,7 @@ import { MessageInput } from './components/MessageInput'
 import { Message } from './components/Message'
 import { NewUserEnter } from './components/NewUserEnter'
 import { ChatHeader } from './components/ChatHeader'
+import { ChatContainer } from './components/ChatContainer'
 
 export function Chat() {
   const params = useParams()
@@ -79,12 +80,7 @@ export function Chat() {
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <ChatHeader chat={chat} />
-      <div
-        id="messages-container"
-        className="grow my-3 w-full flex flex-col justify-end"
-      >
-        {chatContent.map((Element) => Element)}
-      </div>
+      <ChatContainer chatContent={chatContent} />
       <MessageInput onSendMessage={onSendMessage} />
     </Div.container>
   )
