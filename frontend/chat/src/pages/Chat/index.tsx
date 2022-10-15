@@ -1,7 +1,14 @@
 import { Div } from './styles'
 import { BackButton } from '../../components/BackButton'
 import { useParams } from 'react-router-dom'
-import { ReactNode, useContext, useEffect, useState } from 'react'
+import {
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  KeyboardEvent,
+} from 'react'
 import { client, SOCKETS_URL } from '../../core/settings'
 import { ChatType, MessageType } from '../../code/types/chat'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
@@ -14,6 +21,7 @@ export function Chat() {
   } = useContext(AuthContext)
   const [chat, setChat] = useState<ChatType | null>(null)
   const [chatContent, setChatContent] = useState<ReactNode[]>([])
+  const inputMessageRef = useRef<null | HTMLTextAreaElement>(null)
 
   useEffect(() => {
     client.get(`chat-detail/${params.code}`).then((response) => {
@@ -91,8 +99,29 @@ export function Chat() {
     })
   }
 
+  function handleSendMessage() {
+    if (inputMessageRef.current!.value) {
+      const newMessageCopy = inputMessageRef.current!.value.slice()
+      sendJsonMessage({
+        token,
+        text: newMessageCopy,
+      })
+      inputMessageRef.current!.blur()
+      inputMessageRef.current!.value = ''
+    }
+  }
+
+  function handleSendMessageByKeyboard(e: KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === 'Enter') {
+      handleSendMessage()
+    }
+  }
+
   return (
-    <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
+    <Div.container
+      className="min-h-screen mx-auto flex flex-col items-center justify-between"
+      style={{ maxHeight: '100vh !important' }}
+    >
       <div className="w-full flex items-center justify-between mt-6">
         <BackButton to="/chats" />
         <strong>
@@ -112,6 +141,7 @@ export function Chat() {
       <div
         id="messages-container"
         className="grow my-3 w-full flex flex-col justify-end"
+        style={{ overflow: 'scroll' }}
       >
         {chatContent.map((Element) => Element)}
       </div>
@@ -119,17 +149,12 @@ export function Chat() {
       <div className="w-full relative d-block">
         <textarea
           id="room-input"
+          ref={inputMessageRef}
           className="h-14 input-form block pr-12 pt-4"
           placeholder="Mensagem"
+          onKeyDown={handleSendMessageByKeyboard}
         />
-        <button
-          onClick={() => {
-            sendJsonMessage({
-              token,
-              text: 'Allow allow',
-            })
-          }}
-        >
+        <button onClick={handleSendMessage}>
           <svg
             width="31"
             height="24"

@@ -10,6 +10,10 @@ export const Div = {
       width: 100% !important;
       color: var(--pBlack-600) !important;
     }
+
+    #room-input:focus + button path {
+      fill: var(--pBlue-300) !important;
+    }
   `,
 
   /* eslint-disable */
