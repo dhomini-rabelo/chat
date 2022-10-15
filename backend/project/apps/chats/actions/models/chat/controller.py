@@ -1,4 +1,5 @@
 from random import randint
+from apps.accounts.app.models.user import User
 from apps.chats.actions.models.chat.serializer import MessageSerializer
 from apps.chats.actions.models.chat.types import MessageType, MessagesType, try_add_message_response
 from apps.chats.app.models.chat import Chat
@@ -27,6 +28,13 @@ class ChatController:
             code_exists = Chat.objects.filter(code=code).exists()
 
         return code
+
+    def register_user(self, user: User) -> bool:
+        user_already_registered = self.chat.users.filter(id=user.id).exists()
+        if not user_already_registered:
+            self.chat.users.add(user)
+            return True
+        return False
 
     def try_add_message(self, username: str, text: str) -> try_add_message_response:
         serializer = MessageSerializer(data={'created_at': datetime.now(), 'username': username, 'text': text})
