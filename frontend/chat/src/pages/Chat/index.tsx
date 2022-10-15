@@ -1,13 +1,14 @@
 import { Div } from './styles'
-import { BackButton } from '../../components/BackButton'
 import { useParams } from 'react-router-dom'
 import { ReactNode, useContext, useEffect, useState } from 'react'
 import { client, SOCKETS_URL } from '../../core/settings'
 import { ChatType, MessageType } from '../../code/types/chat'
-import useWebSocket, { ReadyState } from 'react-use-websocket'
+import useWebSocket from 'react-use-websocket'
 import { AuthContext } from '../../code/contexts/Auth'
 import { MessageInput } from './components/MessageInput'
 import { Message } from './components/Message'
+import { NewUserEnter } from './components/NewUserEnter'
+import { ChatHeader } from './components/ChatHeader'
 
 export function Chat() {
   const params = useParams()
@@ -23,7 +24,7 @@ export function Chat() {
     })
   }, [params.code])
 
-  const { readyState, sendJsonMessage } = useWebSocket(
+  const { sendJsonMessage } = useWebSocket(
     `${SOCKETS_URL}/chats/${params.code}`,
     {
       onOpen: (e) => {
@@ -48,24 +49,11 @@ export function Chat() {
     },
   )
 
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: 'Connecting',
-    [ReadyState.OPEN]: 'Open',
-    [ReadyState.CLOSING]: 'Closing',
-    [ReadyState.CLOSED]: 'Closed',
-    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-  }[readyState]
-
   function onNewConnection({ username }: { username: string }) {
     setChatContent((prev) => {
       const newChatContent = [...prev]
       newChatContent.push(
-        <div
-          className="rounded-2xl bg-gray-200 text-gray-500 mx-auto text-sm py-1 px-4 my-4"
-          key={newChatContent.length}
-        >
-          {username} entrou no chat
-        </div>,
+        <NewUserEnter username={username} key={prev.length} />,
       )
       return newChatContent
     })
@@ -74,7 +62,9 @@ export function Chat() {
   function onNewMessage(message: MessageType) {
     setChatContent((prev) => {
       const newChatContent = [...prev]
-      newChatContent.push(<Message message={message} myUsername={myUsername} />)
+      newChatContent.push(
+        <Message message={message} myUsername={myUsername} key={prev.length} />,
+      )
       return newChatContent
     })
   }
@@ -88,29 +78,13 @@ export function Chat() {
 
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
-      <div className="w-full flex items-center justify-between mt-6">
-        <BackButton to="/chats" />
-        <strong>
-          {chat?.code || '...'} {connectionStatus}
-        </strong>
-        {chat ? (
-          <img
-            className="rounded-full h-12 w-12 bg-pBlue-300"
-            src={chat.image}
-            alt="chat-image"
-          />
-        ) : (
-          <div className="rounded-full h-12 w-12 bg-gray-400"></div>
-        )}
-      </div>
-
+      <ChatHeader chat={chat} />
       <div
         id="messages-container"
         className="grow my-3 w-full flex flex-col justify-end"
       >
         {chatContent.map((Element) => Element)}
       </div>
-
       <MessageInput onSendMessage={onSendMessage} />
     </Div.container>
   )
