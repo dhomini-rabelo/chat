@@ -6,15 +6,6 @@ export const Div = {
   container: styled.div`
     max-width: 20rem;
     max-height: 100vh !important;
-
-    #room-input {
-      width: 100% !important;
-      color: var(--pBlack-600) !important;
-    }
-
-    #room-input:focus + button path {
-      fill: var(--pBlue-300) !important;
-    }
   `,
 
   /* eslint-disable */
