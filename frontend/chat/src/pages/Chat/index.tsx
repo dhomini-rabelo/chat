@@ -7,6 +7,7 @@ import { ChatType, MessageType } from '../../code/types/chat'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 import { AuthContext } from '../../code/contexts/Auth'
 import { MessageInput } from './components/MessageInput'
+import { Message } from './components/Message'
 
 export function Chat() {
   const params = useParams()
@@ -70,27 +71,10 @@ export function Chat() {
     })
   }
 
-  /* eslint-disable */
-  function onNewMessage({ text, username, created_at }: MessageType) {
-    /* eslint-enable */
-    const messageCreatedDate = new Date(created_at)
+  function onNewMessage(message: MessageType) {
     setChatContent((prev) => {
       const newChatContent = [...prev]
-      newChatContent.push(
-        <Div.message
-          type={username === myUsername ? 'my' : 'other'}
-          className="p-2 flex flex-col mt-2"
-          key={newChatContent.length}
-        >
-          {username !== myUsername && (
-            <span className="font-bold text-xs mb-1">{username}</span>
-          )}
-          <span className="w-full pr-7">{text}</span>
-          <span className="self-end time">
-            {messageCreatedDate.getHours()}:{messageCreatedDate.getMinutes()}
-          </span>
-        </Div.message>,
-      )
+      newChatContent.push(<Message message={message} myUsername={myUsername} />)
       return newChatContent
     })
   }
