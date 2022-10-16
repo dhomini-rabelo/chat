@@ -29,9 +29,11 @@ class ChatController:
 
         return code
 
+    def user_is_registered(self, user: User) -> bool:
+        return self.chat.users.filter(id=user.id).exists()
+
     def register_user(self, user: User) -> bool:
-        user_already_registered = self.chat.users.filter(id=user.id).exists()
-        if not user_already_registered:
+        if not self.user_is_registered(user):
             self.chat.users.add(user)
             return True
         return False

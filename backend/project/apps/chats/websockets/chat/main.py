@@ -3,6 +3,7 @@ from random import randint
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import async_to_sync
 from Core.api.auth.utils import get_user_from_token
+from apps.chats.actions.models.chat.controller import ChatController
 from apps.chats.actions.models.chat.serializer import MessageSerializer
 from apps.chats.actions.models.chat.types import MessageType
 from apps.chats.app.models import Chat
@@ -26,12 +27,12 @@ class ChatConsumer(JsonWebsocketConsumer):
         user_token = self.scope.get('query_string').decode('ascii').split('Authorization=')[::-1][0] if self.scope.get('query_string') else ''
         user = get_user_from_token(user_token)
         if user:
-            chat = Chat.objects.filter(code=code)
-            if chat:
+            chat = Chat.objects.filter(code=code).first()
+            if chat and ChatController(chat).user_is_registered(user):
                 return {
                     "is_valid": True,
                     "user": user,
-                    "chat": chat.first(),
+                    "chat": chat,
                     "token": user_token,
                 }
         return {
