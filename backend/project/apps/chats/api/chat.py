@@ -51,4 +51,4 @@ class RegisterUserInChat(APIView):
                 return Response(None, status=status.HTTP_200_OK)
             else:
                 return Response({'Message': 'Usuário já registrado nesse chat'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'Message': 'Chat não encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Message': 'Nenhum chat registrado com esse código'}, status=status.HTTP_400_BAD_REQUEST)

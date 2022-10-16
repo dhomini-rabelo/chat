@@ -90,14 +90,14 @@ class ChatConsumer(JsonWebsocketConsumer):
                 self.send_json({
                     "type": "error",
                     "payload": {
-                        "message": serializer.errors,
+                        "Message": "Mensagem não pode ser registrada",
                     }
                 })
         else:
             self.send_json({
                 "type": "error",
                 "payload": {
-                    "message": 'Token inválido',
+                    "Message": 'Token inválido',
                 }
             })
 
