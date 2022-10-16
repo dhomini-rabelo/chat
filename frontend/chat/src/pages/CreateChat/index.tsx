@@ -5,6 +5,7 @@ import { BackButton } from '../../components/BackButton'
 import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import { useFeedback } from '../../code/hooks/useFeedback'
 import { client } from '../../core/settings'
+import { useNavigate } from 'react-router-dom'
 
 interface FileEventTarget extends ChangeEvent<HTMLInputElement> {
   currentTarget: HTMLInputElement & EventTarget
@@ -12,6 +13,7 @@ interface FileEventTarget extends ChangeEvent<HTMLInputElement> {
 }
 
 export function CreateChat() {
+  const navigateTo = useNavigate()
   const { FeedbackElement, renderFeedback } = useFeedback()
   const inputFile = useRef<null | HTMLInputElement>(null)
   const [chatImageBase64, setChatImageBase64] = useState<string>('')
@@ -40,8 +42,10 @@ export function CreateChat() {
         .post('create-chat', {
           image: chatImageBase64,
         })
-        .then(() => {
-          renderFeedback('success', 'Chat criado com sucesso')
+        .then((response) => {
+          renderFeedback('success', 'Chat criado com sucesso', () => {
+            navigateTo(`/chat/${response.data.code}`)
+          })
         })
         .catch(() => {
           renderFeedback('error', 'Server Error')
