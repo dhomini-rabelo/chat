@@ -6,7 +6,7 @@ import {
   socketsConnectionStatus,
   SOCKETS_URL,
 } from '../../core/settings'
-import { ChatType, MessageType } from '../../code/types/chat'
+import { ChatType, MessagesType, MessageType } from '../../code/types/chat'
 import useWebSocket from 'react-use-websocket'
 import { AuthContext } from '../../code/contexts/Auth'
 import { MessageInput } from './components/MessageInput'
@@ -26,9 +26,19 @@ export function Chat() {
 
   useEffect(() => {
     client.get(`chat-detail/${params.code}`).then((response) => {
+      const messagesData: MessagesType = response.data.messages
       setChat(response.data as ChatType)
+      setChatContent(
+        messagesData.messages.map((message) => (
+          <Message
+            message={message}
+            myUsername={myUsername}
+            key={message.created_at}
+          />
+        )),
+      )
     })
-  }, [params.code])
+  }, [params.code, myUsername])
 
   const { readyState, sendJsonMessage } = useWebSocket(
     `${SOCKETS_URL}/chats/${params.code}`,
