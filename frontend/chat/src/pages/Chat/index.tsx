@@ -1,7 +1,11 @@
 import { Div } from './styles'
 import { useParams } from 'react-router-dom'
 import { ReactNode, useContext, useEffect, useState } from 'react'
-import { client, SOCKETS_URL } from '../../core/settings'
+import {
+  client,
+  socketsConnectionStatus,
+  SOCKETS_URL,
+} from '../../core/settings'
 import { ChatType, MessageType } from '../../code/types/chat'
 import useWebSocket from 'react-use-websocket'
 import { AuthContext } from '../../code/contexts/Auth'
@@ -10,6 +14,7 @@ import { Message } from './components/Message'
 import { NewUserEnter } from './components/NewUserEnter'
 import { ChatHeader } from './components/ChatHeader'
 import { ChatContainer } from './components/ChatContainer'
+import { ContentForNotOpenConnection } from './components/ContentForNotOpenConnection'
 
 export function Chat() {
   const params = useParams()
@@ -25,7 +30,7 @@ export function Chat() {
     })
   }, [params.code])
 
-  const { sendJsonMessage } = useWebSocket(
+  const { readyState, sendJsonMessage } = useWebSocket(
     `${SOCKETS_URL}/chats/${params.code}`,
     {
       onOpen: (e) => {
@@ -53,9 +58,7 @@ export function Chat() {
   function onNewConnection({ username }: { username: string }) {
     setChatContent((prev) => {
       const newChatContent = [...prev]
-      newChatContent.push(
-        <NewUserEnter username={username} key={prev.length} />,
-      )
+      newChatContent.push(<NewUserEnter username={username} key={username} />)
       return newChatContent
     })
   }
@@ -64,7 +67,11 @@ export function Chat() {
     setChatContent((prev) => {
       const newChatContent = [...prev]
       newChatContent.push(
-        <Message message={message} myUsername={myUsername} key={prev.length} />,
+        <Message
+          message={message}
+          myUsername={myUsername}
+          key={message.created_at}
+        />,
       )
       return newChatContent
     })
@@ -80,8 +87,16 @@ export function Chat() {
   return (
     <Div.container className="min-h-screen mx-auto flex flex-col items-center justify-between">
       <ChatHeader chat={chat} />
-      <ChatContainer chatContent={chatContent} />
-      <MessageInput onSendMessage={onSendMessage} />
+      {socketsConnectionStatus[readyState] === 'Open' ? (
+        <>
+          <ChatContainer chatContent={chatContent} />
+          <MessageInput onSendMessage={onSendMessage} />
+        </>
+      ) : (
+        <ContentForNotOpenConnection
+          connectionStatus={socketsConnectionStatus[readyState]}
+        />
+      )}
     </Div.container>
   )
 }

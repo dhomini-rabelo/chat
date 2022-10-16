@@ -30,7 +30,7 @@ export function MessageInput({
       <textarea
         id="room-input"
         ref={inputMessageRef}
-        className="h-14 input-form block pr-12 pt-4"
+        className="h-14 input-form block pr-12 pt-4 resize-none"
         placeholder="Mensagem"
         onKeyDown={handleSendMessageByKeyboard}
       />
