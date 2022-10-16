@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-export const Div = {
-  container: styled.div`
+export const Form = {
+  container: styled.form`
     max-width: 20rem;
   `,
 }
