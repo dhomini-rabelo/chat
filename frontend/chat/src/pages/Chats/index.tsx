@@ -1,21 +1,24 @@
 import { Div } from './styles'
 import { Link } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../../code/contexts/Auth'
 import { ChatText } from 'phosphor-react'
 import { client } from '../../core/settings'
 import { ChatType } from '../../code/types/chat'
 import { ChatList } from './components/ChatList'
+import { Loading } from '../../components/Loading'
 
 export function Chats() {
   const {
     auth: { username },
   } = useContext(AuthContext)
   const [chats, setChats] = useState<ChatType[]>([])
+  const isLoading = useRef<boolean>(true)
 
   useEffect(() => {
     client.get(`chats/${username}`).then((response) => {
       setChats(response.data as ChatType[])
+      isLoading.current = false
     })
   }, [username])
 
@@ -30,15 +33,17 @@ export function Chats() {
           chats.map((chat: ChatType) => (
             <ChatList chat={chat} key={chat.code} />
           ))
+        ) : isLoading.current ? (
+          <Loading />
         ) : (
           /* eslint-disable */
-          <div className="flex flex-col items-center justify-center grow">
-            <div className="flex flex-col items-center">
-              <ChatText size={96} className="text-pBlack-600" />
-              <span className="block">Sem conversas</span>
-            </div>
-          </div>
-          /* eslint-enable */
+              <div className="flex flex-col items-center justify-center grow">
+                <div className="flex flex-col items-center">
+                  <ChatText size={96} className="text-pBlack-600" />
+                  <span className="block">Sem conversas</span>
+                </div>
+              </div>
+            /* eslint-enable */
         )}
       </div>
 
