@@ -18,6 +18,7 @@ class ChatConsumer(JsonWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.chat: Chat | None = None
+        self.controller: ChatController | None = None
         self.code: str | None = None
         self.tokens_from_users: dict[str, str] = {} # authenticated and connected users
 
@@ -49,6 +50,7 @@ class ChatConsumer(JsonWebsocketConsumer):
         if validation['is_valid']:
             self.accept()
             self.chat = validation["chat"]
+            self.controller = ChatController(self.chat)
             user = validation['user']
             self.tokens_from_users[user.username] = validation['token']
             async_to_sync(self.channel_layer.group_add)(
@@ -78,13 +80,13 @@ class ChatConsumer(JsonWebsocketConsumer):
     def receive_json(self, content: receive_json_content_arg_type, **kwargs):
         username = self.get_username_from_token(content.get('token') or '')
         if username:
-            serializer = MessageSerializer(data={'created_at': datetime.now(), 'username': username, 'text': content.get('text')})
-            if serializer.is_valid():
+            add_message_process = self.controller.try_add_message(username, content.get('text'))
+            if add_message_process["was_success"]:
                 async_to_sync(self.channel_layer.group_send)(
                     self.chat.code,
                     {
                         "type": "new.message",
-                        "payload": serializer.data,
+                        "payload": add_message_process["message"],
                     },
                 )
             else:

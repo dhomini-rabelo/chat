@@ -41,20 +41,20 @@ class ChatController:
     def try_add_message(self, username: str, text: str) -> try_add_message_response:
         serializer = MessageSerializer(data={'created_at': datetime.now(), 'username': username, 'text': text})
         if serializer.is_valid():
-            serializer_data: MessageType = serializer.data
+            serialized_message: MessageType = serializer.data
             messages: MessagesType = {
                 'messages': [
                     *self.chat.messages['messages'],
-                    serializer_data,
+                    serialized_message,
                 ],
-                'last_message': serializer_data,                
+                'last_message': serialized_message,                
             }
             self.chat.messages = messages
             self.chat.save()
             return {
                 'was_success': True,
                 'errors': {},
-                'message': serializer_data,
+                'message': serialized_message,
             }
         else:
             return {
