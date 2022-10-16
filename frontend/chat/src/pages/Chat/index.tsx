@@ -1,6 +1,6 @@
 import { Div } from './styles'
 import { useParams } from 'react-router-dom'
-import { ReactNode, useContext, useEffect, useState } from 'react'
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react'
 import {
   client,
   socketsConnectionStatus,
@@ -15,6 +15,7 @@ import { NewUserEnter } from './components/NewUserEnter'
 import { ChatHeader } from './components/ChatHeader'
 import { ChatContainer } from './components/ChatContainer'
 import { ContentForNotOpenConnection } from './components/ContentForNotOpenConnection'
+import { formatDate } from '../../code/utils/date'
 
 export function Chat() {
   const params = useParams()
@@ -23,19 +24,43 @@ export function Chat() {
   } = useContext(AuthContext)
   const [chat, setChat] = useState<ChatType | null>(null)
   const [chatContent, setChatContent] = useState<ReactNode[]>([])
+  const usersJoined = useRef<string[]>([myUsername])
 
   useEffect(() => {
     client.get(`chat-detail/${params.code}`).then((response) => {
-      const messagesData: MessagesType = response.data.messages
       setChat(response.data as ChatType)
+      const messagesData: MessagesType = response.data.messages
+      let lastDate: null | Date = null
       setChatContent(
-        messagesData.messages.map((message) => (
-          <Message
-            message={message}
-            myUsername={myUsername}
-            key={message.created_at}
-          />
-        )),
+        messagesData.messages.map((message) => {
+          const messageDate = new Date(message.created_at)
+          let includeDate = false
+          if (
+            !lastDate ||
+            (messageDate.getDate() !== lastDate!.getDate() &&
+              messageDate.getMonth() !== lastDate!.getMonth())
+          ) {
+            lastDate = messageDate
+            includeDate = true
+          }
+
+          return (
+            <>
+              {includeDate ? (
+                <div className="rounded-2xl bg-gray-200 text-gray-500 mx-auto text-sm py-1 px-4 my-4">
+                  {formatDate(messageDate)}
+                </div>
+              ) : (
+                ''
+              )}
+              <Message
+                message={message}
+                myUsername={myUsername}
+                key={message.created_at}
+              />
+            </>
+          )
+        }),
       )
     })
   }, [params.code, myUsername])
@@ -66,11 +91,14 @@ export function Chat() {
   )
 
   function onNewConnection({ username }: { username: string }) {
-    setChatContent((prev) => {
-      const newChatContent = [...prev]
-      newChatContent.push(<NewUserEnter username={username} key={username} />)
-      return newChatContent
-    })
+    if (!usersJoined.current.includes(username)) {
+      setChatContent((prev) => {
+        const newChatContent = [...prev]
+        newChatContent.push(<NewUserEnter username={username} key={username} />)
+        return newChatContent
+      })
+      usersJoined.current.push(username)
+    }
   }
 
   function onNewMessage(message: MessageType) {

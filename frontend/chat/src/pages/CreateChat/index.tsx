@@ -84,6 +84,7 @@ export function CreateChat() {
             {chatImageBase64 ? (
               <img
                 src={chatImageBase64}
+                onClick={handleChatImage}
                 alt="chat-image-preview"
                 className="relative img-container flex flex-col items-center justify-center rounded-full h-48 w-48 mb-5"
               />
