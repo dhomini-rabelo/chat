@@ -15,7 +15,7 @@ import { NewUserEnter } from './components/NewUserEnter'
 import { ChatHeader } from './components/ChatHeader'
 import { ChatContainer } from './components/ChatContainer'
 import { ContentForNotOpenConnection } from './components/ContentForNotOpenConnection'
-import { formatDate } from '../../code/utils/date'
+import { DateInfo } from './components/DateInfo'
 
 export function Chat() {
   const params = useParams()
@@ -30,38 +30,46 @@ export function Chat() {
     client.get(`chat-detail/${params.code}`).then((response) => {
       setChat(response.data as ChatType)
       const messagesData: MessagesType = response.data.messages
-      let lastDate: null | Date = null
-      setChatContent(
-        messagesData.messages.map((message) => {
+      setChatContent((prev) => {
+        let lastDate: null | Date = null
+        const initialChatContent = messagesData.messages.map((message) => {
           const messageDate = new Date(message.created_at)
           let includeDate = false
           if (
             !lastDate ||
-            (messageDate.getDate() !== lastDate!.getDate() &&
-              messageDate.getMonth() !== lastDate!.getMonth())
+            messageDate.getDate() !== lastDate!.getDate() ||
+            messageDate.getMonth() !== lastDate!.getMonth()
           ) {
             lastDate = messageDate
             includeDate = true
           }
 
           return (
-            <>
-              {includeDate ? (
-                <div className="rounded-2xl bg-gray-200 text-gray-500 mx-auto text-sm py-1 px-4 my-4">
-                  {formatDate(messageDate)}
-                </div>
-              ) : (
-                ''
-              )}
+            <div key={message.created_at} className="flex flex-col">
+              {includeDate ? <DateInfo dateObj={messageDate} /> : ''}
               <Message
                 message={message}
                 myUsername={myUsername}
                 key={message.created_at}
               />
-            </>
+            </div>
           )
-        }),
-      )
+        })
+
+        const today = new Date()
+        const lastDateValue: null | Date = lastDate // Typescript reads last date as null always
+        if (
+          !lastDateValue ||
+          (today.getDate() !== lastDate!.getDate() &&
+            today.getMonth() !== lastDate!.getMonth())
+        ) {
+          initialChatContent.push(
+            <DateInfo dateObj={today} key={today.getTime()} />,
+          )
+        }
+
+        return initialChatContent
+      })
     })
   }, [params.code, myUsername])
 
