@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AuthRoute } from '../code/utils/AuthRouter'
+import { AuthRoute } from '../code/auth/AuthRouter'
 import { Actions } from '../pages/Actions'
 import { Chats } from '../pages/Chats'
 import { CreateChat } from '../pages/CreateChat'
