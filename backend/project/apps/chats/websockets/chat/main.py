@@ -44,7 +44,6 @@ class ChatConsumer(JsonWebsocketConsumer):
         }
 
     def connect(self):
-        print(self.scope)
         self.code = self.scope['url_route']['kwargs'].get('code') or ''
         validation = self.validate_connection(self.code)
         if validation['is_valid']:
@@ -108,7 +107,6 @@ class ChatConsumer(JsonWebsocketConsumer):
     # EVENTS
 
     def new_connection(self, event: new_connection_arg_type):
-        print('event: ', event)
         self.send_json({
             "type": "new.connection",
             "payload": {
@@ -117,7 +115,6 @@ class ChatConsumer(JsonWebsocketConsumer):
         })
 
     def new_message(self, event: new_message_arg_type):
-        print('event: ', event)
         self.send_json({
             "type": "new.message",
             "payload": event['payload']

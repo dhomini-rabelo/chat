@@ -76,12 +76,6 @@ export function Chat() {
   const { readyState, sendJsonMessage } = useWebSocket(
     `${SOCKETS_URL}/chats/${params.code}`,
     {
-      onOpen: (e) => {
-        console.log('Connected!', e)
-      },
-      onClose: (e) => {
-        console.log('Disconnected!', e)
-      },
       onMessage: (e) => {
         const eventProcessors = {
           'new.connection': onNewConnection,
