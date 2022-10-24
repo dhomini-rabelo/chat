@@ -113,7 +113,4 @@
 <kbd><img src="./readme/active-chat.gif" alt="project-image"></kbd>
 </li>
 
-
-
-
 <ul>
