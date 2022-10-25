@@ -44,7 +44,7 @@ class ChatController:
             serialized_message: MessageType = serializer.data
             messages: MessagesType = {
                 'messages': [
-                    *self.chat.messages['messages'],
+                    *self.get_latest_messages(),
                     serialized_message,
                 ],
                 'last_message': serialized_message,                
@@ -62,6 +62,10 @@ class ChatController:
                 'errors': serializer.errors,
                 'message': None,
             }
+
+    def get_latest_messages(self) -> list[MessageType]:
+        return Chat.objects.get(code=self.chat.code).messages['messages']
+
 
 
     
