@@ -80,7 +80,7 @@ export function CreateChat() {
           </div>
         </div>
         <div className="w-full self-center grow mt-16">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center max-w-sm mx-auto">
             {chatImageBase64 ? (
               <img
                 src={chatImageBase64}

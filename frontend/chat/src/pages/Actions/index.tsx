@@ -22,7 +22,7 @@ export function Actions() {
         className="mx-auto block rounded-full h-64 w-64"
       />
 
-      <div className="w-full mb-4">
+      <div className="w-full mb-4 max-w-sm mx-auto">
         <div className="flex flex-col items-center mb-2">
           <ButtonForm>
             <Link to="/acoes/criar-chat">

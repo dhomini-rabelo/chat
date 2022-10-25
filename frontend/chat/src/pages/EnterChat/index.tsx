@@ -50,7 +50,7 @@ export function EnterChat() {
         </div>
       </div>
 
-      <div className="w-full self-center grow mt-48">
+      <div className="w-full self-center grow mt-48 max-w-sm mx-auto">
         <div className="flex flex-col items-center form-container-df mx-auto">
           <input
             ref={inputRef}
