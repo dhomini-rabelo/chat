@@ -6,7 +6,6 @@
 <li><a href="#tools">Ferramentas</a></li>
 <li><a href="#db">Modelagem</a></li>
 <li><a href="#project">Projeto</a></li>
-<li><a href="#how_to_use">Como usar</a></li>
 </ul>
 
 <h2 id="about" style="margin-top: 30px;">📖 Sobre</h2>
@@ -111,6 +110,13 @@
 <p>Para acessar a sala basta apenas enviar o token</p>
 <br>
 <kbd><img src="./readme/active-chat.gif" alt="project-image"></kbd>
+</li>
+
+<li style="margin-top: 30px;">
+<h3>Autenticação</h3>
+<p>Redirecionamento para tela de login ao tentar acessar url que requer autenticação</p>
+<br>
+<kbd><img src="./readme/auth.gif" alt="project-image"></kbd>
 </li>
 
 <ul>
